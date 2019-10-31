@@ -48,11 +48,10 @@ func broadcast(ms float64) {
             defer c.Close()
 
             local_address := strings.Split(c.LocalAddr().String(), ":")[0]
-            local_address_json := `{"address":"`+local_address+`"}`
+            local_address_formatted := "ledgend;"+local_address
 
             for {
-
-                c.Write([]byte(local_address_json))
+                c.Write([]byte(local_address_formatted))
                 time.Sleep(time.Millisecond*time.Duration(ms))
 
                 if ( !is_broadcasting ) {
