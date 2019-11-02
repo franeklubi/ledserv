@@ -36,11 +36,39 @@ func InitServer(port uint16) (chan<- []ledgend.Change, error) {
 
 func changesReader(receive <-chan []ledgend.Change, send chan<- []byte) {
     for {
-        change := <-receive
-        for _, c := range change {
-            send<- []byte{c.Pixel.R, c.Pixel.G, c.Pixel.B}
+        changes := <-receive
+
+        var bytes []byte
+
+        var address_bytes byte = 1
+        for _, c := range changes {
+            if ( c.Index > 255 ) {
+                address_bytes = 2
+                break;
+            }
         }
+        bytes = append(bytes, preambuleSetter(address_bytes))
+
+
+        for _, c := range changes {
+            var addr_a, addr_b byte
+            addr_b = byte(c.Index & 0x00FF)
+
+            if ( address_bytes == 2) {
+                addr_a = byte(c.Index >> 8)
+                bytes = append(bytes, addr_a)
+            }
+
+            bytes = append(bytes, addr_b, c.Pixel.R, c.Pixel.G, c.Pixel.B)
+        }
+
+        send<- bytes
     }
+}
+
+
+func preambuleSetter(address_bytes byte) (byte) {
+    return address_bytes
 }
 
 
