@@ -9,10 +9,14 @@ import (
 )
 
 
-var upgrader = websocket.Upgrader{
-    ReadBufferSize: 1024,
-    WriteBufferSize: 1024,
-}
+var (
+    upgrader = websocket.Upgrader{
+        ReadBufferSize: 1024,
+        WriteBufferSize: 1024,
+    }
+
+    clients = make(map[*websocket.Conn]bool)
+)
 
 
 func setupRoutes() {
@@ -38,20 +42,27 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
     upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 
     ws, err := upgrader.Upgrade(w, r, nil)
-    standardErrorHandler(err)
+    if ( err != nil ) {
+        log.Println("err")
+        return
+    }
 
     log.Println("Client successfully connected")
 
-    sender(ws)
+    clients[ws] = true
 }
 
 
-func sender(conn *websocket.Conn) {
+func sender() {
     for {
         bytes := <-websocket_send
-        err := conn.WriteMessage(websocket.BinaryMessage, bytes)
-        if ( err != nil ) {
-            log.Println(err)
+        for c := range clients {
+            err := c.WriteMessage(websocket.BinaryMessage, bytes)
+            if ( err != nil ) {
+                log.Println(err, "Deleting connection.")
+                c.Close()
+                delete(clients, c)
+            }
         }
     }
 }

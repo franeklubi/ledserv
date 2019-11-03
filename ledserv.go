@@ -27,6 +27,7 @@ func InitServer(port uint16) (chan<- []ledgend.Change, error) {
 
 
     setupRoutes()
+    go sender()
     go startServer(port)
 
 
