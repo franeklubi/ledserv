@@ -16,19 +16,22 @@ var (
     }
 
     clients = make(map[*websocket.Conn]bool)
+
+    ledservServeMux = http.NewServeMux()
 )
 
 
 func setupRoutes() {
-    http.HandleFunc("/", mainEndpoint)
-    http.HandleFunc("/ws", wsEndpoint)
+    ledservServeMux.HandleFunc("/", mainEndpoint)
+    ledservServeMux.HandleFunc("/ws", wsEndpoint)
 }
 
 
 func startServer(port uint16) {
     port_string := strconv.FormatUint(uint64(port), 10)
     log.Printf("Starting server on %s\n", port_string)
-    err := http.ListenAndServe(":"+port_string, nil)
+
+    err := http.ListenAndServe(":"+port_string, ledservServeMux)
     standardErrorHandler(err)
 }
 
