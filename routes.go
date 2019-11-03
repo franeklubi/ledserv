@@ -69,3 +69,8 @@ func sender() {
         }
     }
 }
+
+
+func ClientsConnected() (int) {
+    return len(clients)
+}
