@@ -38,6 +38,9 @@ func InitServer(port uint16) (chan<- []ledgend.Change, error) {
 func changesReader(receive <-chan []ledgend.Change, send chan<- []byte) {
     for {
         changes := <-receive
+        if ( len(changes) == 0 ) {
+            continue;
+        }
 
         var bytes []byte
 
