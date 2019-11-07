@@ -12,7 +12,16 @@ var (
     websocket_send  chan []byte
 )
 
-
+// InitServer initializes the ledserv's server on provided port
+//
+// Two and only endpoints are "/" and "/ws"
+//
+// "/ws" lets You establish a websocket connection
+//
+// "/" - informs the user user about the "/ws" endpoint
+//
+// Returns a channel You can send []ledgend.Change to,
+// that will be sent to all connected clients
 func InitServer(port uint16) (chan<- []ledgend.Change, error) {
     if ( server_started ) {
         err := errors.New("Server already started!")
