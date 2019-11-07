@@ -12,6 +12,9 @@ var (
 )
 
 
+// Broadcast starts a broadcast of the server's ip on all available interfaces
+//
+// Takes in the number of milliseconds to wait between each broadcast
 func Broadcast(ms float64) {
     if ( is_broadcasting ) {
         return
@@ -21,7 +24,7 @@ func Broadcast(ms float64) {
     broadcast(ms)
 }
 
-
+// StopBroadcast stops the broadcast started by Broadcast()
 func StopBroadcast() {
     is_broadcasting = false
 }

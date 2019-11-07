@@ -70,7 +70,8 @@ func sender() {
     }
 }
 
-
+// ClientsConnected returns the number of clients currently connected
+// to the ledserv's websocket
 func ClientsConnected() (int) {
     return len(clients)
 }
