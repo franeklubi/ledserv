@@ -12,7 +12,7 @@ var (
 )
 
 
-// Broadcast starts a broadcast of the server's ip on all available interfaces
+// Broadcast starts a broadcast of the server's IP on all available interfaces
 //
 // Takes in the number of milliseconds to wait between each broadcast
 func Broadcast(ms float64) {

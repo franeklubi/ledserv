@@ -18,7 +18,7 @@ var (
 //
 // "/ws" lets You establish a websocket connection
 //
-// "/" - informs the user user about the "/ws" endpoint
+// "/" informs the user user about the "/ws" endpoint
 //
 // Returns a channel You can send []ledgend.Change to,
 // that will be sent to all connected clients

@@ -1,6 +1,6 @@
 /*
-Package ledserv provides an easy way to send github/franeklubi/ledgend Change
-information to any websocket client.
+Package ledserv provides an easy way to send github.com/franeklubi/ledgend's
+Change information to any websocket client.
 
 Information is sent in the following form:
     The type of payload is []byte
